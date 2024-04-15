@@ -13,4 +13,9 @@ public class InformacoesPedido {
     private Instant estimativaPreparo;
     private Instant dataFinalizado;
     private String statusPedido;
+
+    public InformacoesPedido() {
+        dataPedido = Instant.now();
+        statusPedido = Status.RECEBIDO.getStatus();
+    }
 }
