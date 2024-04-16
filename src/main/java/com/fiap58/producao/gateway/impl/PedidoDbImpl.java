@@ -30,4 +30,9 @@ public class PedidoDbImpl {
         PedidoDb pedidoDb = new PedidoDb(null, produtos, informacoesPedido);
         return repository.save(pedidoDb);
     }
+
+    public PedidoDb atualizarPedido(PedidoDb pedidoDb) {
+
+        return repository.save(pedidoDb);
+    }
 }

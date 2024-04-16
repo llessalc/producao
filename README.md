@@ -6,7 +6,7 @@ Api Producao Fiap58
 # Baixando imagem 
 docker pull mongodb/mongodb-community-server
 
-docker run --name mongo -p 27017:27017 -e MONGODB_PASS="root" -d mongodb/mongodb-community-server:latest
+docker run --name mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
 
 docker exec -it mongo mongosh
 
@@ -30,12 +30,12 @@ db.pedidos.insertOne(
                 "nome":"Hamburguer",
                 "observacao":"Sem picles",
                 "quantidade":2,
-                "status":"Recebido"
+                "statusProduto":"Recebido"
             },
             {
                 "nome":"Batata Frita",
                 "quantidade":1,
-                "status":"Recebido"
+                "statusProduto":"Recebido"
             }
         ],
         "informacoesPedido":{

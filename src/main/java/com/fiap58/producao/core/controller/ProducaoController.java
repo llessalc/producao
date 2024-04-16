@@ -1,7 +1,6 @@
-package com.fiap58.producao.core.service;
+package com.fiap58.producao.core.controller;
 
 import com.fiap58.producao.core.domain.InformacoesPedido;
-import com.fiap58.producao.core.domain.Produto;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
 import com.fiap58.producao.core.usecases.ProducaoUseCase;
 import com.fiap58.producao.gateway.PedidoDb;
@@ -29,5 +28,32 @@ public class ProducaoController {
     public PedidoDb inserirPedido(DadosProdutosDto produtos) {
         InformacoesPedido informacoesPedido = producaoUseCase.registraPedido(produtos.produtos());
         return pedidoDbImpl.salvaPedido(produtos.produtos(), informacoesPedido);
+    }
+
+    public PedidoDb atualizarPedido(PedidoDb pedidoDb){
+        return pedidoDbImpl.atualizarPedido(pedidoDb);
+    }
+
+    public PedidoDb atualizarStatusPedido(String id) {
+        PedidoDb pedidoDb = pedidoDbImpl.retornaPedidoPorId(id);
+        if (pedidoDb != null){
+            pedidoDb = producaoUseCase.atualizaStatus(pedidoDb);
+        } else {
+            return null;
+        }
+        return atualizarPedido(pedidoDb);
+    }
+
+    public PedidoDb atualizarStatusProduto(String id, int produtoLista) {
+        PedidoDb pedidoDb = pedidoDbImpl.retornaPedidoPorId(id);
+        if (pedidoDb != null){
+            if(produtoLista < 0 || produtoLista >= pedidoDb.getProdutos().size()){
+                return null;
+            }
+            pedidoDb = producaoUseCase.atualizaStatusProduto(pedidoDb, produtoLista);
+        } else {
+            return null;
+        }
+        return atualizarPedido(pedidoDb);
     }
 }

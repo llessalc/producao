@@ -1,9 +1,8 @@
 package com.fiap58.producao.controller;
 
 
-import com.fiap58.producao.core.domain.Produto;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
-import com.fiap58.producao.core.service.ProducaoController;
+import com.fiap58.producao.core.controller.ProducaoController;
 import com.fiap58.producao.gateway.PedidoDb;
 import com.fiap58.producao.gateway.PedidoDbRepository;
 import com.fiap58.producao.gateway.impl.PedidoDbImpl;
@@ -35,5 +34,18 @@ public class ApiController {
         PedidoDb pedidoDb = service.inserirPedido(produtos);
         return ResponseEntity.ok().body(pedidoDb);
     }
+
+    @PatchMapping(value = "atualizarPedido/{id}")
+    public ResponseEntity<PedidoDb> alteraStatusPedido(@PathVariable String id){
+        PedidoDb pedidoDb = service.atualizarStatusPedido(id);
+        return ResponseEntity.ok().body(pedidoDb);
+    }
+
+    @PatchMapping(value = "atualizarProdutoPedido/{id}/{produtoLista}")
+    public ResponseEntity<PedidoDb> alteraStatusProduto(@PathVariable String id, @PathVariable int produtoLista){
+        PedidoDb pedidoDb = service.atualizarStatusProduto(id, produtoLista);
+        return ResponseEntity.ok().body(pedidoDb);
+    }
+
 
 }
