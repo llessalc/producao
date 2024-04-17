@@ -47,5 +47,11 @@ public class ApiController {
         return ResponseEntity.ok().body(pedidoDb);
     }
 
+    @PatchMapping(value = "retiradaPedido/{id}")
+    public ResponseEntity<PedidoDb> retiradaPedido(@PathVariable int id){
+        PedidoDb pedidoDb = service.retiradaPedido(id);
+        return ResponseEntity.ok().body(pedidoDb);
+    }
+
 
 }

@@ -26,6 +26,10 @@ public class PedidoDbImpl {
         return repository.findById(id).orElse(null);
     }
 
+    public PedidoDb retornaPedidoPorIdPedido(int id){
+        return repository.buscaIdPedido(id);
+    }
+
     public PedidoDb salvaPedido(List<Produto> produtos, InformacoesPedido informacoesPedido){
         PedidoDb pedidoDb = new PedidoDb(null, produtos, informacoesPedido);
         return repository.save(pedidoDb);

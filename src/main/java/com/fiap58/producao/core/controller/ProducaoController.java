@@ -26,7 +26,7 @@ public class ProducaoController {
 
 
     public PedidoDb inserirPedido(DadosProdutosDto produtos) {
-        InformacoesPedido informacoesPedido = producaoUseCase.registraPedido(produtos.produtos());
+        InformacoesPedido informacoesPedido = producaoUseCase.registraPedido(produtos);
         return pedidoDbImpl.salvaPedido(produtos.produtos(), informacoesPedido);
     }
 
@@ -54,6 +54,12 @@ public class ProducaoController {
         } else {
             return null;
         }
+        return atualizarPedido(pedidoDb);
+    }
+
+    public PedidoDb retiradaPedido(int id) {
+        PedidoDb pedidoDb = pedidoDbImpl.retornaPedidoPorIdPedido(id);
+        pedidoDb = producaoUseCase.finalizaPedido(pedidoDb);
         return atualizarPedido(pedidoDb);
     }
 }

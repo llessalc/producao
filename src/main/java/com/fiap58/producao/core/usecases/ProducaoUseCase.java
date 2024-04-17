@@ -3,6 +3,7 @@ package com.fiap58.producao.core.usecases;
 import com.fiap58.producao.core.domain.InformacoesPedido;
 import com.fiap58.producao.core.domain.Produto;
 import com.fiap58.producao.core.domain.Status;
+import com.fiap58.producao.core.dto.DadosProdutosDto;
 import com.fiap58.producao.gateway.PedidoDb;
 
 import java.time.Duration;
@@ -25,8 +26,8 @@ public class ProducaoUseCase {
                 .collect(Collectors.toList());
     }
 
-    public InformacoesPedido registraPedido(List<Produto> produtos) {
-        for (Produto produto : produtos) {
+    public InformacoesPedido registraPedido(DadosProdutosDto produtos) {
+        for (Produto produto : produtos.produtos()) {
             produto.setStatusProduto(Status.RECEBIDO.getStatus());
         }
         return defineInformacoesPedido(produtos);
@@ -40,10 +41,6 @@ public class ProducaoUseCase {
 
         pedidoDb.getInformacoesPedido()
                 .setStatusPedido(novoStatus);
-
-        if(novoStatus.equals(Status.FINALIZADO.getStatus())){
-            pedidoDb.getInformacoesPedido().setDataFinalizado(Instant.now());
-        }
 
         pedidoDb = atualizaProdutosPeloStatusPedido(pedidoDb);
         return pedidoDb;
@@ -87,6 +84,12 @@ public class ProducaoUseCase {
         return pedidoDb;
     }
 
+    public PedidoDb finalizaPedido(PedidoDb pedidoDb){
+        pedidoDb.getInformacoesPedido().setStatusPedido(Status.FINALIZADO.getStatus());
+        pedidoDb.getInformacoesPedido().setDataFinalizado(Instant.now());
+        return atualizaProdutosPeloStatusPedido(pedidoDb);
+    }
+
     private PedidoDb verificaAtualizaStatusNulo(PedidoDb pedidoDb){
         if(pedidoDb.getInformacoesPedido().getStatusPedido() == null) {
             pedidoDb.getInformacoesPedido().setStatusPedido(Status.RECEBIDO.getStatus());
@@ -102,10 +105,8 @@ public class ProducaoUseCase {
     private String defineProximoStatus(String status){
         if(status.equals(Status.RECEBIDO.getStatus())) {
             return Status.EM_PREPARACAO.getStatus();
-        } else if (status.equals(Status.EM_PREPARACAO.getStatus())){
-            return Status.PRONTO.getStatus();
         } else {
-            return Status.FINALIZADO.getStatus();
+            return Status.PRONTO.getStatus();
         }
     }
 
@@ -142,9 +143,10 @@ public class ProducaoUseCase {
         return tempoPreparo;
     }
 
-    private InformacoesPedido defineInformacoesPedido(List<Produto> produtos){
-        long tempoPreparo = defineTempoEstimadoDePreparoPadrao(produtos);
+    private InformacoesPedido defineInformacoesPedido(DadosProdutosDto produtos){
+        long tempoPreparo = defineTempoEstimadoDePreparoPadrao(produtos.produtos());
         InformacoesPedido informacoesPedido = new InformacoesPedido();
+        informacoesPedido.setIdPedido(produtos.idPedido());
         Duration duracaoMinutos = Duration.ofMinutes(tempoPreparo);
         informacoesPedido.setEstimativaPreparo(informacoesPedido.getDataPedido().plus(duracaoMinutos));
         return informacoesPedido;
