@@ -8,4 +8,7 @@ public record DadosProdutosDto(
         int idPedido,
         List<Produto> produtos
 ) {
+    public DadosProdutosDto(List<Produto> produtos){
+        this(1, produtos);
+    }
 }

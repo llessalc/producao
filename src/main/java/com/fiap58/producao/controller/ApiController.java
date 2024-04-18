@@ -6,6 +6,7 @@ import com.fiap58.producao.core.controller.ProducaoController;
 import com.fiap58.producao.gateway.PedidoDb;
 import com.fiap58.producao.gateway.PedidoDbRepository;
 import com.fiap58.producao.gateway.impl.PedidoDbImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class ApiController {
     @PostMapping(value = "adicionaPedido")
     public ResponseEntity<PedidoDb> inserirPedido(@RequestBody DadosProdutosDto produtos){
         PedidoDb pedidoDb = service.inserirPedido(produtos);
-        return ResponseEntity.ok().body(pedidoDb);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDb);
     }
 
     @PatchMapping(value = "atualizarPedido/{id}")
