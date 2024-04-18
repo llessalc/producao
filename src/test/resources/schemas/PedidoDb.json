@@ -8,17 +8,10 @@
       "type": "string"
     },
     "produtos": {
-      "type": "List"
+      "type": "array"
     },
     "informacoesPedido": {
-      "type": "List"
+      "type": "object"
     }
-  },
-  "required": [
-    "id",
-    "usuario",
-    "conteudo",
-    "dataCriacao",
-    "gostei"
-  ]
+  }
 }

@@ -36,19 +36,19 @@ public class ApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDb);
     }
 
-    @PatchMapping(value = "atualizarPedido/{id}")
+    @PutMapping(value = "atualizarPedido/{id}")
     public ResponseEntity<PedidoDb> alteraStatusPedido(@PathVariable String id){
         PedidoDb pedidoDb = service.atualizarStatusPedido(id);
         return ResponseEntity.ok().body(pedidoDb);
     }
 
-    @PatchMapping(value = "atualizarProdutoPedido/{id}/{produtoLista}")
+    @PutMapping(value = "atualizarProdutoPedido/{id}/{produtoLista}")
     public ResponseEntity<PedidoDb> alteraStatusProduto(@PathVariable String id, @PathVariable int produtoLista){
         PedidoDb pedidoDb = service.atualizarStatusProduto(id, produtoLista);
         return ResponseEntity.ok().body(pedidoDb);
     }
 
-    @PatchMapping(value = "retiradaPedido/{id}")
+    @PutMapping(value = "retiradaPedido/{id}")
     public ResponseEntity<PedidoDb> retiradaPedido(@PathVariable int id){
         PedidoDb pedidoDb = service.retiradaPedido(id);
         return ResponseEntity.ok().body(pedidoDb);

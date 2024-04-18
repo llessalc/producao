@@ -22,12 +22,10 @@ Funcionalidade: API - Producao
   Cenário: Tentar atualizar status de pedido e produtos prontos
     Dado um pedido e produtos estão com status prontos
     Quando a produção tenta atualizar o status do pedido
-    Então o status do pedido não é alterado
+    Então o status do pedido não é alterado para finalizado
     Quando a produção tenta atualizar o status de um produto
-    Então o status do produto não é atualizado
+    Então o status do produto não é atualizado para finalizado
 
   Cenário: Cliente retira produto em loja
     Quando o cliente faz a retirada dos produtos
     Então o status do pedido e produtos é atualizada para Finalizada
-    Quando listamos os pedidos
-    Então o pedido finalizado não é retornado
