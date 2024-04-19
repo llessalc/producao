@@ -1,4 +1,4 @@
-package com.fiap58.producao.core.usecases.utils;
+package com.fiap58.producao.core.utils;
 
 import com.fiap58.producao.core.domain.Produto;
 import com.fiap58.producao.core.dto.DadosProdutosDto;

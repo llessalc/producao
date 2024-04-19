@@ -1,8 +1,8 @@
-package com.fiap58.producao.core.usecases.bdd;
+package com.fiap58.producao.core.bdd;
 
 import com.fiap58.producao.core.domain.Status;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
-import com.fiap58.producao.core.usecases.utils.PedidoHelper;
+import com.fiap58.producao.core.utils.PedidoHelper;
 import com.fiap58.producao.gateway.PedidoDb;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
