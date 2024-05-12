@@ -1,10 +1,9 @@
-package com.fiap58.producao.gateway.impl;
+package com.fiap58.producao.infrastructure.impl;
 
 import com.fiap58.producao.core.domain.InformacoesPedido;
 import com.fiap58.producao.core.domain.Produto;
-import com.fiap58.producao.gateway.PedidoDb;
-import com.fiap58.producao.gateway.PedidoDbRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fiap58.producao.infrastructure.domain.PedidoDb;
+import com.fiap58.producao.infrastructure.PedidoDbRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class PedidoDbImpl {
         return repository.findById(id).orElse(null);
     }
 
-    public PedidoDb retornaPedidoPorIdPedido(int id){
+    public PedidoDb retornaPedidoPorIdPedido(Long id){
         return repository.buscaIdPedido(id);
     }
 

@@ -29,6 +29,7 @@ jobs:
 
       - name: Executar testes unitários
         run: |
+          mvn spring-boot:run
           mvn test
 
 #      - name: Generate JaCoco Badge

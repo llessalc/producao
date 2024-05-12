@@ -3,7 +3,7 @@ package com.fiap58.producao.core.bdd;
 import com.fiap58.producao.core.domain.Status;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
 import com.fiap58.producao.core.utils.PedidoHelper;
-import com.fiap58.producao.gateway.PedidoDb;
+import com.fiap58.producao.infrastructure.domain.PedidoDb;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
@@ -195,7 +195,7 @@ public class StepDefinition {
     public void o_cliente_faz_a_retirada_dos_produtos() {
         Random random = new Random();
 
-        DadosProdutosDto dadosProdutosDto = PedidoHelper.gerarPedidoId(random.nextInt(9999));
+        DadosProdutosDto dadosProdutosDto = PedidoHelper.gerarPedidoId(random.nextLong(9999L));
         response = given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(dadosProdutosDto)

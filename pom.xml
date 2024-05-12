@@ -109,11 +109,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<properties>
-						<configurationParameters>
-							cucumber.junit-platform.naming-strategy=long
-						</configurationParameters>
-					</properties>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

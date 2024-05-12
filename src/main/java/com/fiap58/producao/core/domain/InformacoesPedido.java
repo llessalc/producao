@@ -9,7 +9,7 @@ import java.time.Instant;
 @Setter
 public class InformacoesPedido {
 
-    private int idPedido;
+    private Long idPedido;
     private Instant dataPedido;
     private Instant estimativaPreparo;
     private Instant dataFinalizado;

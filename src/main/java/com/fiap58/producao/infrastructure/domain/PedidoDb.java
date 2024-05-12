@@ -1,4 +1,4 @@
-package com.fiap58.producao.gateway;
+package com.fiap58.producao.infrastructure.domain;
 
 import com.fiap58.producao.core.domain.InformacoesPedido;
 import com.fiap58.producao.core.domain.Produto;

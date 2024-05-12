@@ -21,10 +21,10 @@ public abstract class PedidoHelper {
         produtoList.add(prod1);
         produtoList.add(prod2);
 
-        return new DadosProdutosDto(1, produtoList);
+        return new DadosProdutosDto(1L, produtoList);
     }
 
-    public static DadosProdutosDto gerarPedidoId(int id){
+    public static DadosProdutosDto gerarPedidoId(Long id){
         List<Produto> produtoList = new ArrayList<>();
         Produto prod1 = new Produto();
         prod1.setNome("X-Burguer Test");

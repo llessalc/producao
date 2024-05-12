@@ -5,10 +5,10 @@ import com.fiap58.producao.core.domain.Produto;
 import java.util.List;
 
 public record DadosProdutosDto(
-        int idPedido,
+        Long idPedido,
         List<Produto> produtos
 ) {
     public DadosProdutosDto(List<Produto> produtos){
-        this(1, produtos);
+        this(1L, produtos);
     }
 }

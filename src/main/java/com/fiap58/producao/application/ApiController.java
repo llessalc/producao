@@ -1,11 +1,12 @@
-package com.fiap58.producao.controller;
+package com.fiap58.producao.application;
 
 
 import com.fiap58.producao.core.dto.DadosProdutosDto;
-import com.fiap58.producao.core.controller.ProducaoController;
-import com.fiap58.producao.gateway.PedidoDb;
-import com.fiap58.producao.gateway.PedidoDbRepository;
-import com.fiap58.producao.gateway.impl.PedidoDbImpl;
+import com.fiap58.producao.core.service.ProducaoService;
+import com.fiap58.producao.infrastructure.domain.PedidoDb;
+import com.fiap58.producao.infrastructure.PedidoDbRepository;
+import com.fiap58.producao.infrastructure.impl.ImplConsomerApiPedidos;
+import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,11 @@ public class ApiController {
 
     private PedidoDbImpl pedidoDbImpl;
 
-    private ProducaoController service;
+    private ProducaoService service;
 
-    public ApiController(PedidoDbRepository repository) {
+    public ApiController(PedidoDbRepository repository, ImplConsomerApiPedidos implConsomerApiPedidos) {
         pedidoDbImpl = new PedidoDbImpl(repository);
-        service = new ProducaoController(pedidoDbImpl);
+        service = new ProducaoService(pedidoDbImpl, implConsomerApiPedidos);
     }
 
     @GetMapping
@@ -47,12 +48,5 @@ public class ApiController {
         PedidoDb pedidoDb = service.atualizarStatusProduto(id, produtoLista);
         return ResponseEntity.ok().body(pedidoDb);
     }
-
-    @PutMapping(value = "retiradaPedido/{id}")
-    public ResponseEntity<PedidoDb> retiradaPedido(@PathVariable int id){
-        PedidoDb pedidoDb = service.retiradaPedido(id);
-        return ResponseEntity.ok().body(pedidoDb);
-    }
-
 
 }
