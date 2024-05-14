@@ -28,7 +28,7 @@ jobs:
           java-version: '17'
 
       - name: Executar o Maven
-          run: mvn spring-boot:run
+        run: mvn spring-boot:run
 
       - name: Executar testes unitários
         run: mvn test
