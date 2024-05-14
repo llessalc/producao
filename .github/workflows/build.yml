@@ -28,17 +28,13 @@ jobs:
           java-version: '17'
 
       - name: Executar o Maven
-          run: |
-            mvn spring-boot:run
+          run: mvn spring-boot:run
 
       - name: Executar testes unitários
-        run: |
-          mvn spring-boot:run
-          mvn test
+        run: mvn test
 
       - name: Executar testes BDD
-        run: |
-          mvn test -P system-test
+        run: mvn test -P system-test
 #      - name: Generate JaCoco Badge
 #        id: jacoco
 #        uses: cicirello/jacoco-badge-generator@v2.0.1
