@@ -27,12 +27,17 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
+      - name: Iniciar aplicação Spring
+        run: mvn spring-boot:run &
+
+      - name: Esperar inicialização da aplicação
+        run: sleep 60 # Aguardar 60 segundos para a aplicação Spring iniciar completamente
+
       - name: Executar testes unitários
         run: mvn test
 
       - name: Executar testes BDD
-        run: |
-          mvn test -P system-test
+        run: mvn test -P system-test
 
 #      - name: Generate JaCoco Badge
 #        id: jacoco
