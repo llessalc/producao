@@ -8,23 +8,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-class AtualizarStatusPedidoTest {
+class AtualizarStatusProdutoTest {
 
     private PedidoDb pedidoDb;
     private List<Produto> produtos = new ArrayList<>();
     private InformacoesPedido informacoesPedido;
 
-    private AtualizarStatusPedido atualizarStatusPedido;
+    private AtualizarStatusProduto atualizarStatusProduto;
+
 
     @BeforeEach
     void setup(){
-        atualizarStatusPedido = new AtualizarStatusPedido();
+        atualizarStatusProduto = new AtualizarStatusProduto();
         Produto prod1 = new Produto();
         prod1.setNome("X-Burguer Test");
         prod1.setObservacao("Sem picles");
@@ -45,11 +46,25 @@ class AtualizarStatusPedidoTest {
         pedidoDb.setInformacoesPedido(informacoesPedido);
     }
 
+    @Test
+    @DisplayName("Verifica que quando apenas um produto é atualizado o pedido não altera status")
+    void atualizaStatusProduto() {
+        PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+
+        assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
+                .isEqualTo(Status.RECEBIDO.getStatus());
+        assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
+                .isEqualTo(Status.EM_PREPARACAO.getStatus());
+        assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
+                .isEqualTo(Status.RECEBIDO.getStatus());
+    }
 
     @Test
-    @DisplayName("Verifica que Produtos tem seus status atualizados junto com pedido - EM PREPARACAO")
-    void atualizaStatusParaEmPreparacao() {
-        PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
+    @DisplayName("Verifica que quando todos os produtos são atualizados o pedido altera status")
+    void atualizaStatusTodosProdutos() {
+        PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
+
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
                 .isEqualTo(Status.EM_PREPARACAO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
@@ -59,23 +74,11 @@ class AtualizarStatusPedidoTest {
     }
 
     @Test
-    @DisplayName("Verifica que Produtos tem seus status atualizados junto com pedido - PRONTO")
-    void atualizaStatusParaPronto() {
-        PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
-        pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(pedidoDbAtualizado);
-        assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
-                .isEqualTo(Status.PRONTO.getStatus());
-        assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
-                .isEqualTo(Status.PRONTO.getStatus());
-        assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
-                .isEqualTo(Status.PRONTO.getStatus());
-    }
-
-    @Test
-    @DisplayName("Verifica que Produtos em status superiores ao do pedido não são atualizados junto ao status do pedido")
-    void atualizaStatusOndeProdutoEstaMaisAvancado() {
-        this.pedidoDb.getProdutos().get(0).setStatusProduto(Status.PRONTO.getStatus());
-        PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
+    @DisplayName("Verifica que quando todos os produtos são atualizados o pedido altera status - Pronto")
+    void atualizaStatusTodosProdutosParaPronto() {
+        PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
 
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
                 .isEqualTo(Status.EM_PREPARACAO.getStatus());
@@ -83,16 +86,10 @@ class AtualizarStatusPedidoTest {
                 .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
                 .isEqualTo(Status.EM_PREPARACAO.getStatus());
-    }
 
-    @Test
-    @DisplayName("Verifica que não é possível finalizar o status")
-    void atualizaStatusParaFinalizadoSemSucesso() {
-        PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
-        pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(pedidoDbAtualizado);
-        pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(pedidoDbAtualizado);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
-                .isNotEqualTo(Status.FINALIZADO.getStatus());
+                .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
                 .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
@@ -100,15 +97,20 @@ class AtualizarStatusPedidoTest {
     }
 
     @Test
-    @DisplayName("Verifica que é possível finalizar o status")
-    void finalizaPedido() {
-        PedidoDb pedidoDbAtualizado = atualizarStatusPedido.finalizaPedido(this.pedidoDb);
+    @DisplayName("Verifica que não podemos finalizar produtos e pedidos - Pronto")
+    void atualizaStatusTodosProdutosSomenteAteStatusPronto() {
+        PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 1);
 
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
-                .isEqualTo(Status.FINALIZADO.getStatus());
+                .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
-                .isEqualTo(Status.FINALIZADO.getStatus());
+                .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
-                .isEqualTo(Status.FINALIZADO.getStatus());
+                .isEqualTo(Status.PRONTO.getStatus());
     }
 }

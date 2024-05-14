@@ -54,7 +54,7 @@ public class AtualizarStatusProduto {
         }
 
         for(int i = 0; i <pedidoDb.getProdutos().size(); i++){
-            if(pedidoDb.getProdutos().get(i) == null)
+            if(pedidoDb.getProdutos().get(i).getStatusProduto() == null)
                 pedidoDb.getProdutos().get(i).setStatusProduto(Status.RECEBIDO.getStatus());
         }
         return pedidoDb;

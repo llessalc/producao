@@ -20,6 +20,7 @@ public class AtualizarStatusPedido {
     }
 
     public PedidoDb finalizaPedido(PedidoDb pedidoDb){
+        pedidoDb = verificaAtualizaStatusNulo(pedidoDb);
         pedidoDb.getInformacoesPedido().setStatusPedido(Status.FINALIZADO.getStatus());
         pedidoDb.getInformacoesPedido().setDataFinalizado(Instant.now());
         return atualizaProdutosPeloStatusPedido(pedidoDb);
@@ -52,7 +53,7 @@ public class AtualizarStatusPedido {
         }
 
         for(int i = 0; i <pedidoDb.getProdutos().size(); i++){
-            if(pedidoDb.getProdutos().get(i) == null)
+            if(pedidoDb.getProdutos().get(i).getStatusProduto() == null)
                 pedidoDb.getProdutos().get(i).setStatusProduto(Status.RECEBIDO.getStatus());
         }
         return pedidoDb;
