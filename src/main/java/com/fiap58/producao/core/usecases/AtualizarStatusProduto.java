@@ -13,14 +13,6 @@ import java.util.stream.Collectors;
 
 public class AtualizarStatusProduto {
 
-    /*
-    - Recebe o pedido
-    - Retira pedido para preparação
-    - Entrega pedido
-
-     */
-
-    // Fazer testes para todas as possibilidades
     public PedidoDb atualizaStatusProduto(PedidoDb pedidoDb, int produtoLista) {
         pedidoDb = verificaAtualizaStatusNulo(pedidoDb);
 

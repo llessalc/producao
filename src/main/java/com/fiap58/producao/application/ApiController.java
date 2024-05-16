@@ -2,11 +2,11 @@ package com.fiap58.producao.application;
 
 
 import com.fiap58.producao.core.dto.DadosProdutosDto;
-import com.fiap58.producao.core.service.ProducaoService;
+import com.fiap58.producao.service.ProducaoService;
 import com.fiap58.producao.infrastructure.domain.PedidoDb;
-import com.fiap58.producao.infrastructure.PedidoDbRepository;
-import com.fiap58.producao.infrastructure.impl.ImplConsomerApiPedidos;
-import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/pedidoProducao")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApiController {
 
-    private PedidoDbImpl pedidoDbImpl;
-
+    @Autowired
     private ProducaoService service;
-
-    public ApiController(PedidoDbRepository repository, ImplConsomerApiPedidos implConsomerApiPedidos) {
-        pedidoDbImpl = new PedidoDbImpl(repository);
-        service = new ProducaoService(pedidoDbImpl, implConsomerApiPedidos);
-    }
 
     @GetMapping
     public ResponseEntity<List<PedidoDb>> retornaPedidosProducao(){

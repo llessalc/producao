@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongo_producao
+    image: mongodb/mongodb-community-server:latest
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - producao-net
+    command: bash -c "sleep 15 && mongo --eval 'db = db.getSiblingDB(\"producao\"); db.createCollection(\"pedidos\")'"
+
+  pedidos_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - producao-net
+    depends_on:
+      - mongodb
+    environment:
+      PEDIDOS_API_ROOLBACK:  ${{ secrets.PEDIDOS_API_ROOLBACK  }}
+      DB_URL: ${{ secrets.DB_URL  }}
+    working_dir: /usr/src/producao
+    command: /usr/src/producao/app-startup.sh
+
+networks:
+  producao-net:
+    driver: bridge

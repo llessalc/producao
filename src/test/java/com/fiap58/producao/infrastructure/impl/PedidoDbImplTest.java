@@ -28,7 +28,7 @@ class PedidoDbImplTest {
 
     @BeforeEach
     void setup(){
-        pedidoDbImpl = new PedidoDbImpl(repository);
+        pedidoDbImpl = new PedidoDbImpl();
     }
 
     @Test

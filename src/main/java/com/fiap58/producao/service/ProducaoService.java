@@ -1,4 +1,4 @@
-package com.fiap58.producao.core.service;
+package com.fiap58.producao.service;
 
 import com.fiap58.producao.core.domain.InformacoesPedido;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
@@ -6,28 +6,34 @@ import com.fiap58.producao.core.usecases.AtualizarStatusPedido;
 import com.fiap58.producao.core.usecases.AtualizarStatusProduto;
 import com.fiap58.producao.core.usecases.RegistrarPedido;
 import com.fiap58.producao.infrastructure.domain.PedidoDb;
-import com.fiap58.producao.infrastructure.impl.ImplConsomerApiPedidos;
 import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
 import com.fiap58.producao.infrastructure.service.PedidoApiService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Service
+@AllArgsConstructor
 public class ProducaoService {
 
+    @Autowired
     private PedidoDbImpl pedidoDbImpl;
+    @Autowired
+    private PedidoApiService pedidoApiService;
+
     private AtualizarStatusProduto atualizarStatusProduto;
     private AtualizarStatusPedido atualizarStatusPedido;
     private RegistrarPedido registraPedido;
-    private PedidoApiService pedidoApiService;
 
-    public ProducaoService(PedidoDbImpl pedidoDbImpl, ImplConsomerApiPedidos implConsomerApiPedidos) {
-        this.pedidoDbImpl = pedidoDbImpl;
+    public ProducaoService() {
+        this.pedidoDbImpl = new PedidoDbImpl();
         this.atualizarStatusProduto = new AtualizarStatusProduto();
         this.atualizarStatusPedido = new AtualizarStatusPedido();
         this.registraPedido = new RegistrarPedido();
-        this.pedidoApiService = new PedidoApiService(implConsomerApiPedidos);
+        this.pedidoApiService = new PedidoApiService();
     }
 
     public List<PedidoDb> retornaPedidosProducao(){
