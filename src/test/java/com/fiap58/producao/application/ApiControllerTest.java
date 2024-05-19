@@ -1,15 +1,13 @@
 package com.fiap58.producao.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap58.producao.core.domain.InformacoesPedido;
 import com.fiap58.producao.core.domain.Produto;
 import com.fiap58.producao.core.dto.DadosProdutosDto;
 import com.fiap58.producao.service.ProducaoService;
 import com.fiap58.producao.core.usecases.AtualizarStatusPedido;
 import com.fiap58.producao.core.utils.PedidoHelper;
-import com.fiap58.producao.infrastructure.PedidoDbRepository;
 import com.fiap58.producao.infrastructure.domain.PedidoDb;
-import com.fiap58.producao.infrastructure.impl.ImplConsomerApiPedidos;
-import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,12 +34,6 @@ class ApiControllerTest {
     private AutoCloseable openMocks;
     @Mock
     private ProducaoService service;
-    @Mock
-    private PedidoDbImpl pedidoDbImpl;
-    @Mock
-    private PedidoDbRepository repository;
-    @Mock
-    private ImplConsomerApiPedidos implConsomerApiPedidos;
 
     private List<PedidoDb> pedidoDbList = new ArrayList<>();
     private AtualizarStatusPedido atualizarStatusPedido;
@@ -51,13 +43,13 @@ class ApiControllerTest {
 
     private final String ENDPOINT_API_PRODUCAO_RETORNAR = "http://localhost:8080/pedidoProducao";
     private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8080/pedidoProducao/adicionaPedido";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8080/pedidoProducao/atualizarProdutoPedido/";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8080/pedidoProducao/atualizarPedido/";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8080/pedidoProducao/atualizarProdutoPedido/{idPedido}/{idProduto}";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8080/pedidoProducao/atualizarPedido/{idPedido}";
 
     @BeforeEach
     void setup(){
         openMocks = MockitoAnnotations.openMocks(this);
-        ApiController apiController = new ApiController();
+        ApiController apiController = new ApiController(service);
 //        ApiController apiController = new ApiController(repository, implConsomerApiPedidos);
 //        service = new ProducaoService(pedidoDbImpl, implConsomerApiPedidos);
 
@@ -111,16 +103,50 @@ class ApiControllerTest {
     }
 
     @Test
-    void inserirPedido() {
+    void inserirPedido() throws Exception {
         DadosProdutosDto dadosProdutosDto = PedidoHelper.gerarPedido();
+        when(service.inserirPedido(any(DadosProdutosDto.class))).thenReturn(pedidoDb);
+
+        mockMvc.perform(post(ENDPOINT_API_PRODUCAO_INSERIR)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dadosProdutosDto)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        verify(service, times(1)).inserirPedido(any(DadosProdutosDto.class));
+
 
     }
 
     @Test
-    void alteraStatusPedido() {
+    void alteraStatusPedido() throws Exception {
+        String idPedido = "qualquerId";
+        when(service.atualizarStatusPedido(any(String.class))).thenReturn(pedidoDb);
+
+        mockMvc.perform(put(ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO, idPedido)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(service, times(1)).atualizarStatusPedido(any(String.class));
     }
 
     @Test
-    void alteraStatusProduto() {
+    void alteraStatusProduto() throws Exception {
+        String idPedido = "qualquerIdPedido";
+        int idProduto = 1;
+        when(service.atualizarStatusProduto(any(String.class), anyInt())).thenReturn(pedidoDb);
+
+        mockMvc.perform(put(ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO, idPedido, idProduto)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(service, times(1)).atualizarStatusProduto(any(String.class), anyInt());
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

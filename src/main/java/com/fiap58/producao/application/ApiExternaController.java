@@ -1,8 +1,9 @@
 package com.fiap58.producao.application;
 
-import com.fiap58.producao.service.ProducaoService;
+import com.fiap58.producao.infrastructure.PedidoDbRepository;
 import com.fiap58.producao.infrastructure.domain.PedidoDb;
 import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
+import com.fiap58.producao.service.ProducaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/pedidoProducao")
 public class ApiExternaController {
-
     @Autowired
     private PedidoDbImpl pedidoDbImpl;
     @Autowired
     private ProducaoService service;
+
 
     @PutMapping(value = "retiradaPedido/{id}")
     public ResponseEntity retiradaPedido(@PathVariable Long id){

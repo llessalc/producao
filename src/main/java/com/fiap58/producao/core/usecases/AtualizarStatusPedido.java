@@ -9,14 +9,17 @@ import java.time.Instant;
 public class AtualizarStatusPedido {
 
     public PedidoDb atualizaStatus(PedidoDb pedidoDb) {
-        pedidoDb = verificaAtualizaStatusNulo(pedidoDb);
-        String novoStatus = defineProximoStatus(pedidoDb.getInformacoesPedido().getStatusPedido());;
 
-        pedidoDb.getInformacoesPedido()
-                .setStatusPedido(novoStatus);
 
-        pedidoDb = atualizaProdutosPeloStatusPedido(pedidoDb);
-        return pedidoDb;
+            pedidoDb = verificaAtualizaStatusNulo(pedidoDb);
+            String novoStatus = defineProximoStatus(pedidoDb.getInformacoesPedido().getStatusPedido());;
+
+            pedidoDb.getInformacoesPedido()
+                    .setStatusPedido(novoStatus);
+
+            pedidoDb = atualizaProdutosPeloStatusPedido(pedidoDb);
+            return pedidoDb;
+
     }
 
     public PedidoDb finalizaPedido(PedidoDb pedidoDb){

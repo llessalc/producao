@@ -7,8 +7,6 @@ import com.fiap58.producao.core.usecases.AtualizarStatusProduto;
 import com.fiap58.producao.core.usecases.RegistrarPedido;
 import com.fiap58.producao.infrastructure.domain.PedidoDb;
 import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
-import com.fiap58.producao.infrastructure.service.PedidoApiService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ProducaoService {
 
     @Autowired
     private PedidoDbImpl pedidoDbImpl;
-    @Autowired
-    private PedidoApiService pedidoApiService;
+
 
     private AtualizarStatusProduto atualizarStatusProduto;
     private AtualizarStatusPedido atualizarStatusPedido;
@@ -33,7 +29,15 @@ public class ProducaoService {
         this.atualizarStatusProduto = new AtualizarStatusProduto();
         this.atualizarStatusPedido = new AtualizarStatusPedido();
         this.registraPedido = new RegistrarPedido();
-        this.pedidoApiService = new PedidoApiService();
+
+    }
+
+    public ProducaoService(PedidoDbImpl pedidoDbImpl, AtualizarStatusProduto atualizarStatusProduto,
+                           AtualizarStatusPedido atualizarStatusPedido, RegistrarPedido registraPedido) {
+        this.pedidoDbImpl = pedidoDbImpl;
+        this.atualizarStatusProduto = atualizarStatusProduto;
+        this.atualizarStatusPedido = atualizarStatusPedido;
+        this.registraPedido = registraPedido;
     }
 
     public List<PedidoDb> retornaPedidosProducao(){
@@ -77,13 +81,8 @@ public class ProducaoService {
     }
 
     public PedidoDb retiradaPedido(long id) {
-        try{
-            PedidoDb pedidoDb = pedidoDbImpl.retornaPedidoPorIdPedido(id);
-            pedidoDb = atualizarStatusPedido.finalizaPedido(pedidoDb);
-            return atualizarPedido(pedidoDb);
-        } catch (Exception e){
-            pedidoApiService.roolbackPedidoFinalizado(id);
-            return null;
-        }
+        PedidoDb pedidoDb = pedidoDbImpl.retornaPedidoPorIdPedido(id);
+        pedidoDb = atualizarStatusPedido.finalizaPedido(pedidoDb);
+        return atualizarPedido(pedidoDb);
     }
 }
