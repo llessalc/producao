@@ -60,6 +60,7 @@ public class AtualizarStatusProduto {
         }else {
             return Status.FINALIZADO.getStatus();
         }
+
     }
 
     private int valorStatus(String status){
