@@ -49,6 +49,7 @@ class AtualizarStatusPedidoTest {
     @Test
     @DisplayName("Verifica que Produtos tem seus status atualizados junto com pedido - EM PREPARACAO")
     void atualizaStatusParaEmPreparacao() {
+        this.pedidoDb.getInformacoesPedido().setStatusPedido(null);
         PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
                 .isEqualTo(Status.EM_PREPARACAO.getStatus());
@@ -61,6 +62,7 @@ class AtualizarStatusPedidoTest {
     @Test
     @DisplayName("Verifica que Produtos tem seus status atualizados junto com pedido - PRONTO")
     void atualizaStatusParaPronto() {
+        this.pedidoDb.getInformacoesPedido().setStatusPedido("Outro status");
         PedidoDb pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(this.pedidoDb);
         pedidoDbAtualizado = atualizarStatusPedido.atualizaStatus(pedidoDbAtualizado);
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())

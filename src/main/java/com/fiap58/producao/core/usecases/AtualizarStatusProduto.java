@@ -55,8 +55,10 @@ public class AtualizarStatusProduto {
     private String defineProximoStatus(String status){
         if(status.equals(Status.RECEBIDO.getStatus())) {
             return Status.EM_PREPARACAO.getStatus();
-        } else {
+        } if (status.equals(Status.EM_PREPARACAO.getStatus())|| status.equals(Status.PRONTO.getStatus())){
             return Status.PRONTO.getStatus();
+        }else {
+            return Status.FINALIZADO.getStatus();
         }
     }
 

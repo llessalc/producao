@@ -49,6 +49,7 @@ class AtualizarStatusProdutoTest {
     @Test
     @DisplayName("Verifica que quando apenas um produto é atualizado o pedido não altera status")
     void atualizaStatusProduto() {
+        this.pedidoDb.getInformacoesPedido().setStatusPedido(null);
         PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
 
         assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
@@ -112,5 +113,19 @@ class AtualizarStatusProdutoTest {
                 .isEqualTo(Status.PRONTO.getStatus());
         assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
                 .isEqualTo(Status.PRONTO.getStatus());
+    }
+
+    @Test
+    void tentaAtualizarStatusFinalizado(){
+        pedidoDb.getInformacoesPedido().setStatusPedido(Status.FINALIZADO.getStatus());
+        pedidoDb.getProdutos().get(0).setStatusProduto(Status.FINALIZADO.getStatus());
+        pedidoDb.getProdutos().get(1).setStatusProduto(Status.FINALIZADO.getStatus());
+        PedidoDb pedidoDbAtualizado = atualizarStatusProduto.atualizaStatusProduto(pedidoDb, 0);
+        assertThat(pedidoDbAtualizado.getInformacoesPedido().getStatusPedido())
+                .isEqualTo(Status.FINALIZADO.getStatus());
+        assertThat(pedidoDbAtualizado.getProdutos().get(0).getStatusProduto())
+                .isEqualTo(Status.FINALIZADO.getStatus());
+        assertThat(pedidoDbAtualizado.getProdutos().get(1).getStatusProduto())
+                .isEqualTo(Status.FINALIZADO.getStatus());
     }
 }
