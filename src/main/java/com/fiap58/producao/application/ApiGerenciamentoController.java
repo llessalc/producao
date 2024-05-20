@@ -5,6 +5,8 @@ import com.fiap58.producao.infrastructure.domain.PedidoDb;
 import com.fiap58.producao.infrastructure.impl.PedidoDbImpl;
 import com.fiap58.producao.service.ProducaoService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/pedidoProducao")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApiGerenciamentoController {
     @Autowired
     private PedidoDbImpl pedidoDbImpl;
