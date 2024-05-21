@@ -1,0 +1,41 @@
+name: Deploy services into EKS
+on:
+  workflow_run:
+    workflows: [Build and Push Docker Image to ECR]
+    types:
+      - completed
+
+env:
+  - EKS_CLUSTER_NAME: fiap-58-eks-cluster
+
+jobs:
+  on-success:
+    deploy-aws-eks:
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+
+        - name: Configurando credenciais AWS
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v1
+
+        - name: Update kube config
+          run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region us-east-1
+
+        - name: Deploy to EKS
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            IMAGE_TAG: producao
+          run: |
+            sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/fiap-pedidos:$IMAGE_TAG|g" deployments/app-producao.yaml && \
+            kubectl apply -k deployments/
