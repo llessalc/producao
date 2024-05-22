@@ -40,7 +40,7 @@ spec:
             - name: DB_URL
               value: mongodb
             - name: PEDIDOS_API_ROOLBACK
-              value: "x"
+              value: PEDIDOS_API_ROLL_VAL
 
           ports:
             - containerPort: 8080
