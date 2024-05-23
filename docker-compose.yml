@@ -21,10 +21,6 @@ services:
     depends_on:
       - mongodb
     environment:
-<<<<<<< HEAD
-=======
-      PEDIDOS_API_ROOLBACK:  pedidos_roll
->>>>>>> cf152acbb8cb87e8c0aa029a5cd79832acfd11bf
       DB_URL: mongodb
     working_dir: /usr/src/producao
     command: /usr/src/producao/app-startup.sh

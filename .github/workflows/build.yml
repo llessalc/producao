@@ -25,6 +25,6 @@ jobs:
 
       - name: Build, tag e push da imagem no Amazon ECR
         run: |
-          docker build -t producao .
-          docker tag api-pedidos:latest ${{ secrets.URI_REPOSITORY }}:producao
+          docker build -t api-producao .
+          docker tag api-producao:latest ${{ secrets.URI_REPOSITORY }}:producao
           docker push ${{ secrets.URI_REPOSITORY }}:producao
