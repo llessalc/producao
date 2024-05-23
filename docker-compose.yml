@@ -8,7 +8,6 @@ services:
       - 27017:27017
     networks:
       - producao-net
-    command: bash -c "sleep 15 && mongo --eval 'db = db.getSiblingDB(\"producao\"); db.createCollection(\"pedidos\")'"
 
   pedidos_service:
     build: .
@@ -20,8 +19,8 @@ services:
     depends_on:
       - mongodb
     environment:
-      PEDIDOS_API_ROOLBACK:  ${{ secrets.PEDIDOS_API_ROOLBACK  }}
-      DB_URL: ${{ secrets.DB_URL  }}
+      PEDIDOS_API_ROOLBACK:  pedidos_roll
+      DB_URL: mongodb
     working_dir: /usr/src/producao
     command: /usr/src/producao/app-startup.sh
 

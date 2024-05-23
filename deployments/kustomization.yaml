@@ -1,0 +1,3 @@
+resources:
+  - app-producao-deployment.yaml
+  - mongodb.yaml
