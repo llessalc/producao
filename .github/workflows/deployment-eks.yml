@@ -1,8 +1,6 @@
 name: Deploy services into EKS
 on:
   push:
-    branches:
-      - main
   workflow_run:
     workflows: [Build and Push Docker Image to ECR]
     types:
@@ -37,5 +35,5 @@ jobs:
         env:
           IMAGE_TAG: producao
         run: |
-          sed -i.bak "s|DOCKER_IMAGE|${{ secrets.URI_REPOSITORY }}:$IMAGE_TAG|g;s|PEDIDOS_API_ROLL_VAL|${{ secrets.PEDIDOS_API_ROLL_VAL }}|g" deployments/app-producao-deployment.yaml && \
+          sed -i.bak "s|DOCKER_IMAGE|${{ secrets.URI_REPOSITORY }}:$IMAGE_TAG|g" deployments/app-producao-deployment.yaml && \
           kubectl apply -k deployments/
