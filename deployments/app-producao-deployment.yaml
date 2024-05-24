@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-producao
+  labels:
+    app: app-producao
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port-default
+  selector:
+    app: app-producao
+    tier: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-producao
+  labels:
+    app: app-producao
+spec:
+  selector:
+    matchLabels:
+      app: app-producao
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: app-producao
+        tier: frontend
+    spec:
+      containers:
+        - name: app-producao
+          image: DOCKER_IMAGE
+          imagePullPolicy: Always
+          env:
+            - name: DB_URL
+              value: mongodb
+
+          ports:
+            - containerPort: 8080
+              name: app-producao
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              mvn clean package
+              mvn spring-boot:run
+          resources:
+            requests:
+              cpu: 700m

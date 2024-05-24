@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "PedidoDb",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "produtos": {
+      "type": "array"
+    },
+    "informacoesPedido": {
+      "type": "object"
+    }
+  }
+}
