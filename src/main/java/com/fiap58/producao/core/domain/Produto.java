@@ -15,4 +15,14 @@ public class Produto {
     private int quantidade;
 
     private String statusProduto;
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nome='" + nome + '\'' +
+                ", observacao='" + observacao + '\'' +
+                ", quantidade=" + quantidade +
+                ", statusProduto='" + statusProduto + '\'' +
+                '}';
+    }
 }
