@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Random;
@@ -17,13 +18,15 @@ import static org.hamcrest.Matchers.hasKey;
 
 @DataMongoTest
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 class ApiControllerTestIT {
 
-    private final String ENDPOINT_API_PRODUCAO_RETORNAR = "http://localhost:8080/pedidoProducao";
-    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8080/pedidoProducao/adicionaPedido";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8080/pedidoProducao/atualizarProdutoPedido/";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8080/pedidoProducao/atualizarPedido/";
-    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8080/pedidoProducao/retiradaPedido/";
+    private final String ENDPOINT_API_PRODUCAO_RETORNAR = "http://localhost:8082/pedidoProducao";
+    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8082/pedidoProducao/adicionaPedido";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8082/pedidoProducao/atualizarProdutoPedido/";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8082/pedidoProducao/atualizarPedido/";
+    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8082/pedidoProducao/retiradaPedido/";
+
 
     @Test
     void retornaPedidosProducao() {

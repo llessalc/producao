@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApiGerenciamentoControllerIT {
 
-    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8080/pedidoProducao/adicionaPedido";
-    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8080/pedidoProducao/retiradaPedido/";
+    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8082/pedidoProducao/adicionaPedido";
+    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8082/pedidoProducao/retiradaPedido/";
 
     @Test
     void alteraStatusPedido() {

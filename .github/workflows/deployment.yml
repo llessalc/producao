@@ -19,6 +19,10 @@ jobs:
       - name: Executar testes unitários
         run: |
           export DB_URL="${{ secrets.DB_URL }}"
+          export PEDIDOS_PRODUCAO="${{ secrets.PEDIDOS_PRODUCAO }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.PEDIDOS_FINALIZADOS }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.AWS_LOCALHOST }}"
+          export AWS_REGION="us-east-1"
           mvn test
 
       - name: Generate JaCoco Badge
@@ -63,6 +67,10 @@ jobs:
       - name: Iniciar aplicação Spring
         run: |
           export DB_URL="${{ secrets.DB_URL }}"
+          export PEDIDOS_PRODUCAO="${{ secrets.PEDIDOS_PRODUCAO }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.PEDIDOS_FINALIZADOS }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.AWS_LOCALHOST }}"
+          export AWS_REGION="us-east-1"
           mvn spring-boot:run &
 
       - name: Esperar inicialização da aplicação
@@ -112,6 +120,10 @@ jobs:
       - name: Iniciar aplicação Spring
         run: |
           export DB_URL="${{ secrets.DB_URL }}"
+          export PEDIDOS_PRODUCAO="${{ secrets.PEDIDOS_PRODUCAO }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.PEDIDOS_FINALIZADOS }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.AWS_LOCALHOST }}"
+          export AWS_REGION="us-east-1"
           mvn spring-boot:run &
 
       - name: Esperar inicialização da aplicação
@@ -159,6 +171,10 @@ jobs:
       - name: Build com Maven
         run: |
           export DB_URL="${{ secrets.DB_URL }}"
+          export PEDIDOS_PRODUCAO="${{ secrets.PEDIDOS_PRODUCAO }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.PEDIDOS_FINALIZADOS }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.AWS_LOCALHOST }}"
+          export AWS_REGION="us-east-1"
           mvn package
 
 
@@ -187,6 +203,10 @@ jobs:
       - name: Publish package
         run: |
           export DB_URL="${{ secrets.DB_URL }}"
+          export PEDIDOS_PRODUCAO="${{ secrets.PEDIDOS_PRODUCAO }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.PEDIDOS_FINALIZADOS }}"
+          export PEDIDOS_FINALIZADOS="${{ secrets.AWS_LOCALHOST }}"
+          export AWS_REGION="us-east-1"
           mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

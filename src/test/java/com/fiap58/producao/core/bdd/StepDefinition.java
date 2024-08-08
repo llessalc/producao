@@ -23,10 +23,10 @@ public class StepDefinition {
 
     private Response response;
     private PedidoDb pedidoDbResposta;
-    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8080/pedidoProducao/adicionaPedido";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8080/pedidoProducao/atualizarProdutoPedido/";
-    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8080/pedidoProducao/atualizarPedido/";
-    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8080/pedidoProducao/retiradaPedido/";
+    private final String ENDPOINT_API_PRODUCAO_INSERIR = "http://localhost:8082/pedidoProducao/adicionaPedido";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PRODUTO = "http://localhost:8082/pedidoProducao/atualizarProdutoPedido/";
+    private final String ENDPOINT_API_PRODUCAO_ATUALIZAR_PEDIDO = "http://localhost:8082/pedidoProducao/atualizarPedido/";
+    private final String ENDPOINT_API_PRODUCAO_RETIRADA_PEDIDO = "http://localhost:8082/pedidoProducao/retiradaPedido/";
 
     //Receber um pedido e listar
     @Quando("submeter um novo pedido")
