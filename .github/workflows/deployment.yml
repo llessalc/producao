@@ -61,7 +61,15 @@ jobs:
           docker pull mongodb/mongodb-community-server
           docker run --name mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
           sleep 15 # Aguardar 15 segundos para o MongoDB iniciar completamente
-
+      - name: Start LocalStack container
+        run: |
+          docker run -d -p 4566:4566 -e SERVICES=sqs --name localstack localstack/localstack
+      - name: Wait for LocalStack to be ready
+        run: |
+          until curl -s http://localhost:4566/health | grep "\"sqs\": \"running\""; do
+            echo "Waiting for LocalStack..."
+            sleep 5
+          done
       - name: Criar Collection
         run: docker exec mongo bash -c 'echo "use producao" | mongosh && echo "db.createCollection(\"pedidos\")" | mongosh'
 
@@ -121,7 +129,15 @@ jobs:
           docker pull mongodb/mongodb-community-server
           docker run --name mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
           sleep 15 # Aguardar 15 segundos para o MongoDB iniciar completamente
-
+      - name: Start LocalStack container
+        run: |
+          docker run -d -p 4566:4566 -e SERVICES=sqs --name localstack localstack/localstack
+      - name: Wait for LocalStack to be ready
+        run: |
+          until curl -s http://localhost:4566/health | grep "\"sqs\": \"running\""; do
+            echo "Waiting for LocalStack..."
+            sleep 5
+          done
       - name: Criar Collection
         run: docker exec mongo bash -c 'echo "use producao" | mongosh && echo "db.createCollection(\"pedidos\")" | mongosh'
 
